@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lec.spring.repository.AttachmentRepository">
+    <insert id="insert" flushCache="true" parameterType="arrayList">
+        INSERT INTO t5_attachment(sourcename, filename, post_id)
+        VALUES
+        <foreach collection="list" item="e" separator=",">
+            (#{e.sourcename}, #{e.filename}, #{param2})
+        </foreach>
+    </insert>
+
+    <insert id="save" flushCache="true" parameterType="com.lec.spring.domain.Attachment">
+        INSERT INTO t5_attachment(sourcename, filename, post_id)
+        VALUES (#{sourcename}, #{filename}, #{post_id})
+    </insert>
+
+    <!-- 반복해서 사용될 쿼리문은 sql 태그로 정의 include 태그로 가져다 쓸수 있다 -->
+    <sql id="SELECTFILE">
+        SELECT id, sourcename, filename, post_id
+        FROM t5_attachment
+        WHERE 1 = 1
+    </sql>
+
+    <select id="findByPost" resultType="com.lec.spring.domain.Attachment">
+        <include refid="SELECTFILE"/>
+        and post_id = #{param1}
+        order by id asc;
+    </select>
+
+    <select id="findById" resultType="com.lec.spring.domain.Attachment">
+        <include refid="SELECTFILE"/>
+        and id = #{id}
+    </select>
+
+    <select id="findByIds" resultType="com.lec.spring.domain.Attachment" parameterType="java.util.ArrayList">
+        <include refid="SELECTFILE"/>
+        and id in
+        <foreach collection="array" item="e" separator="," open="(" close=")">
+            #{e}
+        </foreach>
+        order by id desc
+    </select>
+
+    <delete id="deleteByIds" flushCache="true" parameterType="java.util.ArrayList">
+        delete from t5_attachment
+        where id in (<foreach collection="array" item="item" separator=",">#{item}</foreach>)
+    </delete>
+
+    <delete id="delete" flushCache="true" parameterType="com.lec.spring.domain.Attachment">
+        delete from t5_attachment where id = #{id}
+    </delete>
+</mapper>
