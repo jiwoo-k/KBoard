@@ -12,7 +12,7 @@ spring:
   # datasource 설정. MYSQL 등 spring-jdbc 사용 시 아래 정보 없으면 서버 가동 시 에러.
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${rds.hostname}:${rds.post}/${rds.db.name}?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username: ${rds.username}
     password: ${rds.password}
 
