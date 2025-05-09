@@ -81,7 +81,7 @@ public class BoardController {
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable Long id, Model model){
         model.addAttribute("post", boardService.detail(id));
-        return "/board/detail";
+        return "board/detail";
     }
 
     @GetMapping("/list")
@@ -93,7 +93,7 @@ public class BoardController {
     @GetMapping("/update/{id}")
     public String update(@PathVariable Long id, Model model){
         model.addAttribute("post", boardService.selectById(id));
-        return "/board/update";
+        return "board/update";
     }
 
     @PostMapping("/update")
